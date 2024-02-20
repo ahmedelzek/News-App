@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">News App</string>
+    <string name="supervised_by_ahmed_adel">supervised by Ahmed Adel</string>
+    <string name="search">Search</string>
+    <string name="settings">Settings</string>
+    <string name="news_app">News App!</string>
+    <string name="categories">Categories</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
