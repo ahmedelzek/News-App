@@ -21,7 +21,7 @@
         </com.google.android.material.appbar.MaterialToolbar>
     </com.google.android.material.appbar.AppBarLayout>
 
-    <include layout="@layout/fragment_nav" />
+    <include layout="@layout/nav_drawer" />
 
     <include
         android:id="@+id/content"

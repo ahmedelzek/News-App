@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -19,7 +19,7 @@
             <ImageView
                 android:id="@+id/newsImg"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="250dp"
                 android:adjustViewBounds="true"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:src="@drawable/new_img" />
@@ -28,26 +28,31 @@
                 android:id="@+id/newAuthorTxt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/black_light"
                 android:layout_marginTop="10dp"
                 app:layout_constraintStart_toStartOf="@id/newsImg"
                 app:layout_constraintTop_toBottomOf="@id/newsImg"
                 tools:text="Author" />
 
             <TextView
-                android:id="@+id/newArticleTxt"
+                android:id="@+id/newTitleTxt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_regular"
+                android:textSize="14sp"
                 app:layout_constraintStart_toStartOf="@id/newsImg"
                 app:layout_constraintTop_toBottomOf="@id/newAuthorTxt"
                 tools:text="Why are football's biggest clubs starting a new
 tournament?" />
 
             <TextView
+                android:id="@+id/newTimeTxt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
+                android:textColor="@color/black_light"
                 app:layout_constraintEnd_toEndOf="@id/newsImg"
-                app:layout_constraintTop_toBottomOf="@id/newArticleTxt"
+                app:layout_constraintTop_toBottomOf="@id/newTitleTxt"
                 tools:text="3 hours" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
