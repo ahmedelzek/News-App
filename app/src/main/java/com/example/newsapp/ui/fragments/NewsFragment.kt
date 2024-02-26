@@ -20,7 +20,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class NewsFragment : Fragment(), OnTabSelectedListener {
+class NewsFragment(private val categoryId: String) : Fragment(), OnTabSelectedListener {
 
 
     private lateinit var binding: FragmentNewsBinding
@@ -50,7 +50,7 @@ class NewsFragment : Fragment(), OnTabSelectedListener {
     private fun loadSources() {
         showProgressbarVisibility(true)
         showErrorVisibility(false)
-        ApiManger.getWebServices().getSources(ApiManger.apiKey)
+        ApiManger.getWebServices().getSources(ApiManger.apiKey, categoryId)
             .enqueue(object : Callback<SourcesResponse> {
                 override fun onResponse(
                     call: Call<SourcesResponse>,

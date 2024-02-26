@@ -1,21 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="match_parent"
+    tools:background="@drawable/toolbar_background">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
+        android:layout_marginTop="5dp"
         android:weightSum="3">
 
         <ImageView
+            android:id="@+id/drawerIcon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:src="@drawable/ic_menu" />
 
         <TextView
+            android:id="@+id/toolbarText"
             style="@style/toolbar_title_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -24,12 +29,13 @@
             android:textAlignment="center" />
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/searchIcon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginTop="4dp"
             android:layout_weight="1"
-            android:src="@drawable/ic_search"
-            android:visibility="gone" />
+            android:src="@drawable/ic_search" />
 
     </LinearLayout>
-
+    =
 </androidx.constraintlayout.widget.ConstraintLayout>

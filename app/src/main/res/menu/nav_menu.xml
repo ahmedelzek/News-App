@@ -7,7 +7,7 @@
         android:title="@string/categories"
         app:actionViewClass="android.widget.TextView" />
     <item
-        android:id="@+id/action_settings"
+        android:id="@+id/settings"
         android:icon="@drawable/ic_settings"
         android:title="@string/settings"
         app:actionViewClass="android.widget.TextView" />
