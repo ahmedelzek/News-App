@@ -1,6 +1,7 @@
 package com.example.newsapp.api.model
 
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 data class ArticlesResponse(
 
@@ -45,6 +46,6 @@ data class Article(
 
     @field:SerializedName("content")
     val content: String? = null
-)
+) : Serializable
 
 

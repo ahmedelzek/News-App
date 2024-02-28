@@ -28,17 +28,29 @@ class NewsAdapter(private var articlesList: List<Article?>) :
         notifyDataSetChanged()
     }
 
-    class NewsViewHolder(private val binding: NewsItemBinding) : ViewHolder(binding.root) {
+    inner class NewsViewHolder(private val binding: NewsItemBinding) : ViewHolder(binding.root) {
         fun bind(article: Article?) {
             binding.apply {
                 newAuthorTxt.text = article?.source?.name
                 newTitleTxt.text = article?.title
                 newTimeTxt.text = article?.publishedAt
-                Glide.with(root)
-                    .load(article?.urlToImage)
-                    .into(binding.newsImg)
+                Glide.with(root).load(article?.urlToImage).into(binding.newsImg)
+
+            }
+            onArticleClickListener?.let { onArticleClickListener ->
+                binding.articleItem.setOnClickListener {
+                    onArticleClickListener.onArticleClick(article)
+                }
             }
         }
     }
 
+    interface OnArticleClickListener {
+        fun onArticleClick(article: Article?)
+    }
+
+    private var onArticleClickListener: OnArticleClickListener? = null
+    fun setOnArticleClickListener(listener: OnArticleClickListener) {
+        onArticleClickListener = listener
+    }
 }

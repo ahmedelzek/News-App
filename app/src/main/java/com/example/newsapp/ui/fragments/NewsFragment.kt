@@ -1,5 +1,6 @@
 package com.example.newsapp.ui.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,10 +10,12 @@ import androidx.fragment.app.Fragment
 import com.example.newsapp.Constants
 import com.example.newsapp.adapter.NewsAdapter
 import com.example.newsapp.api.ApiManger
+import com.example.newsapp.api.model.Article
 import com.example.newsapp.api.model.ArticlesResponse
 import com.example.newsapp.api.model.Source
 import com.example.newsapp.api.model.SourcesResponse
 import com.example.newsapp.databinding.FragmentNewsBinding
+import com.example.newsapp.ui.activities.DetailsActivity
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.google.gson.Gson
@@ -20,14 +23,14 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class NewsFragment(private val categoryId: String) : Fragment(), OnTabSelectedListener {
+class NewsFragment(private val categoryId: String) : Fragment(), OnTabSelectedListener,
+    NewsAdapter.OnArticleClickListener {
 
 
     private lateinit var binding: FragmentNewsBinding
     private var newsAdapter = NewsAdapter(listOf())
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         binding = FragmentNewsBinding.inflate(inflater, container, false)
         return binding.root
@@ -45,6 +48,7 @@ class NewsFragment(private val categoryId: String) : Fragment(), OnTabSelectedLi
             loadSources()
         }
         binding.tapLayout.addOnTabSelectedListener(this)
+        newsAdapter.setOnArticleClickListener(this)
     }
 
     private fun loadSources() {
@@ -53,8 +57,7 @@ class NewsFragment(private val categoryId: String) : Fragment(), OnTabSelectedLi
         ApiManger.getWebServices().getSources(ApiManger.apiKey, categoryId)
             .enqueue(object : Callback<SourcesResponse> {
                 override fun onResponse(
-                    call: Call<SourcesResponse>,
-                    response: Response<SourcesResponse>
+                    call: Call<SourcesResponse>, response: Response<SourcesResponse>
                 ) {
                     showProgressbarVisibility(false)
                     if (response.isSuccessful) {
@@ -63,8 +66,7 @@ class NewsFragment(private val categoryId: String) : Fragment(), OnTabSelectedLi
                         }
                     } else {
                         val responseGson = Gson().fromJson(
-                            response.errorBody()?.string(),
-                            SourcesResponse::class.java
+                            response.errorBody()?.string(), SourcesResponse::class.java
                         )
                         showErrorVisibility(true, responseGson.message ?: Constants.ERROR_MESSAGE)
                     }
@@ -90,8 +92,7 @@ class NewsFragment(private val categoryId: String) : Fragment(), OnTabSelectedLi
 
     private fun showErrorVisibility(isVisible: Boolean, message: String = "") {
         binding.errorView.root.isVisible = isVisible
-        if (isVisible)
-            binding.errorView.errorText.text = message
+        if (isVisible) binding.errorView.errorText.text = message
     }
 
     private fun showProgressbarVisibility(isVisible: Boolean) {
@@ -118,8 +119,7 @@ class NewsFragment(private val categoryId: String) : Fragment(), OnTabSelectedLi
         ApiManger.getWebServices().getArticles(ApiManger.apiKey, sourceId)
             .enqueue(object : Callback<ArticlesResponse> {
                 override fun onResponse(
-                    call: Call<ArticlesResponse>,
-                    response: Response<ArticlesResponse>
+                    call: Call<ArticlesResponse>, response: Response<ArticlesResponse>
                 ) {
                     if (response.isSuccessful) {
                         response.body()?.articles.let {
@@ -127,8 +127,7 @@ class NewsFragment(private val categoryId: String) : Fragment(), OnTabSelectedLi
                         }
                     } else {
                         val responseGson = Gson().fromJson(
-                            response.errorBody()?.string(),
-                            ArticlesResponse::class.java
+                            response.errorBody()?.string(), ArticlesResponse::class.java
                         )
                         showErrorVisibility(true, responseGson.message ?: Constants.ERROR_MESSAGE)
                     }
@@ -141,5 +140,11 @@ class NewsFragment(private val categoryId: String) : Fragment(), OnTabSelectedLi
                 }
 
             })
+    }
+
+    override fun onArticleClick(article: Article?) {
+        val intent = Intent(requireActivity(), DetailsActivity::class.java)
+        intent.putExtra(Constants.ARTICLE_KEY, article)
+        startActivity(intent)
     }
 }
