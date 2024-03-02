@@ -9,9 +9,13 @@ import com.example.newsapp.databinding.FragmentCategoriesBinding
 import com.example.newsapp.ui.adapter.CategoriesAdapter
 import com.example.newsapp.ui.model.Category
 
-class CategoriesFragment(private val onCategoryClick: (Category) -> Unit) : Fragment() {
+class CategoriesFragment(
+    private val onCategoryClick: (Category) -> Unit,
+    private val onResume: (category: String) -> Unit
+) : Fragment() {
     private lateinit var binding: FragmentCategoriesBinding
     private lateinit var categoriesAdapter: CategoriesAdapter
+    private var category = ""
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -30,5 +34,10 @@ class CategoriesFragment(private val onCategoryClick: (Category) -> Unit) : Frag
     private fun initRecyclerView() {
         categoriesAdapter = CategoriesAdapter(Category.categories, onCategoryClick)
         binding.categoriesRecyclerView.adapter = categoriesAdapter
+    }
+
+    override fun onResume() {
+        super.onResume()
+        onResume.invoke(category)
     }
 }

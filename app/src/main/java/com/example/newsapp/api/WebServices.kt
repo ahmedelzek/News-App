@@ -18,4 +18,10 @@ interface WebServices {
         @Query("apiKey") apiKey: String,
         @Query("sources") sourceId: String
     ): Call<ArticlesResponse>
+
+    @GET("/v2/top-headlines/sources")
+    fun getArticlesForSearch(
+        @Query("apiKey") apiKey: String,
+        @Query("q") query: String
+    ): Call<ArticlesResponse>
 }

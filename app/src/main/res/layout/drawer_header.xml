@@ -6,13 +6,18 @@
     android:gravity="bottom"
     android:padding="16dp">
 
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/logo" />
 
     <TextView
         android:id="@+id/header_textView"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/poppins_bold"
         android:paddingTop="8dp"
+        android:layout_gravity="center"
         android:text="@string/news_app"
         android:textAlignment="center"
         android:textColor="@color/white"

@@ -15,9 +15,7 @@
         android:layout_marginTop="32dp"
         android:fontFamily="@font/poppins_bold"
         android:text="@string/pick_your_category_of_interest"
-        android:textSize="22sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:textSize="22sp" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/categoriesRecyclerView"
