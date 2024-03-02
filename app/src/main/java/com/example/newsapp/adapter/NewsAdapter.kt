@@ -28,8 +28,9 @@ class NewsAdapter(private var articlesList: List<Article?>) :
         notifyDataSetChanged()
     }
 
-    fun searchArticles() {
-
+    fun searchArticles(newList: List<Article?>) {
+        articlesList = newList
+        notifyDataSetChanged()
     }
 
     inner class NewsViewHolder(private val binding: NewsItemBinding) : ViewHolder(binding.root) {

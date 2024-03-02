@@ -8,8 +8,8 @@ import com.example.newsapp.R
 import com.example.newsapp.databinding.ActivityHomeBinding
 import com.example.newsapp.ui.fragments.CategoriesFragment
 import com.example.newsapp.ui.fragments.NewsFragment
-import com.example.newsapp.ui.fragments.SearchFragment
 import com.example.newsapp.ui.fragments.SettingsFragment
+import com.example.newsapp.ui.fragments.search.SearchFragment
 
 class HomeActivity : AppCompatActivity() {
     private lateinit var binding: ActivityHomeBinding
@@ -20,6 +20,11 @@ class HomeActivity : AppCompatActivity() {
         })
     }, { initCategoryAppBar() })
 
+    private val searchFragment = SearchFragment {
+        binding.appBar.root.isVisible = true
+        supportFragmentManager.popBackStack()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityHomeBinding.inflate(layoutInflater)
@@ -27,6 +32,11 @@ class HomeActivity : AppCompatActivity() {
         initFragments()
         loadFragment(categoriesFragment)
         onNavClicked()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        binding.appBar.root.isVisible = true
     }
 
 
@@ -85,7 +95,7 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun onSearchIconClickListener() {
-        loadFragment(SearchFragment())
+        loadFragment(searchFragment)
         binding.appBar.root.isVisible = false
     }
 }
