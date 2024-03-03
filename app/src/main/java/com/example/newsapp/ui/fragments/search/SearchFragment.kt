@@ -19,7 +19,7 @@ class SearchFragment(private val cancelClick: (fragment: Fragment) -> Unit) : Fr
     NewsAdapter.OnArticleClickListener {
 
     private lateinit var binding: FragmentSearchBinding
-    private lateinit var adapter: NewsAdapter
+    private var adapter = NewsAdapter(listOf())
     private lateinit var viewModel: SearchFragmentViewModel
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -51,6 +51,7 @@ class SearchFragment(private val cancelClick: (fragment: Fragment) -> Unit) : Fr
 
     private fun updateRecyclerView(articles: List<Article?>) {
         adapter = NewsAdapter(articles)
+        adapter.setOnArticleClickListener(this)
         binding.searchRecyclerView.adapter = adapter
     }
 

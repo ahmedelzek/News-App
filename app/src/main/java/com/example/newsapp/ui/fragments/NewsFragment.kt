@@ -32,7 +32,6 @@ class NewsFragment(
 ) : Fragment(), OnTabSelectedListener,
     NewsAdapter.OnArticleClickListener {
 
-
     private lateinit var binding: FragmentNewsBinding
     private var newsAdapter = NewsAdapter(listOf())
     override fun onCreateView(
@@ -53,7 +52,6 @@ class NewsFragment(
         super.onResume()
         onResume.invoke()
     }
-
     private fun handleClicks() {
         binding.errorView.retryButton.setOnClickListener {
             loadSources()
@@ -65,7 +63,7 @@ class NewsFragment(
     private fun loadSources() {
         showProgressbarVisibility(true)
         showErrorVisibility(false)
-        ApiManger.getWebServices().getSources(ApiManger.apiKey, categoryId.id)
+        ApiManger.getWebServices().getSources(Constants.API_KEY, categoryId.id)
             .enqueue(object : Callback<SourcesResponse> {
                 override fun onResponse(
                     call: Call<SourcesResponse>, response: Response<SourcesResponse>
@@ -138,7 +136,7 @@ class NewsFragment(
     }
 
     private fun loadArticles(sourceId: String) {
-        ApiManger.getWebServices().getArticles(ApiManger.apiKey, sourceId)
+        ApiManger.getWebServices().getArticles(Constants.API_KEY, sourceId)
             .enqueue(object : Callback<ArticlesResponse> {
                 override fun onResponse(
                     call: Call<ArticlesResponse>, response: Response<ArticlesResponse>

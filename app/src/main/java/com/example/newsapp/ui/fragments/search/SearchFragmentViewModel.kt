@@ -2,6 +2,7 @@ package com.example.newsapp.ui.fragments.search
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.newsapp.Constants
 import com.example.newsapp.api.ApiManger
 import com.example.newsapp.api.model.Article
 import com.example.newsapp.api.model.ArticlesResponse
@@ -13,7 +14,7 @@ class SearchFragmentViewModel : ViewModel() {
     var articleListLiveData: MutableLiveData<List<Article?>> = MutableLiveData(listOf())
     fun articleSearchInAPI(text: String) {
         ApiManger.getWebServices().getArticles(
-            apiKey = ApiManger.apiKey,
+            apiKey = Constants.API_KEY,
             searchKey = text
         ).enqueue(object : Callback<ArticlesResponse> {
             override fun onResponse(

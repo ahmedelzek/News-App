@@ -29,14 +29,8 @@ class HomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        initFragments()
         loadFragment(categoriesFragment)
         onNavClicked()
-    }
-
-    override fun onResume() {
-        super.onResume()
-        binding.appBar.root.isVisible = true
     }
 
 
@@ -57,7 +51,6 @@ class HomeActivity : AppCompatActivity() {
 
     }
 
-    private fun initFragments() {}
     private fun initCategoryAppBar() {
         binding.appBar.apply {
             root.isVisible = true
