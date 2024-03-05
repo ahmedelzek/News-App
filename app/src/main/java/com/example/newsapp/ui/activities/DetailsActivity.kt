@@ -20,14 +20,16 @@ class DetailsActivity : AppCompatActivity() {
 
     private fun getArticle() {
         val article = intent.getSerializableExtra(Constants.ARTICLE_KEY) as? Article
-        binding.articleTime.text = article?.publishedAt
-        binding.articleTitle.text = article?.description
-        Glide.with(this).load(article?.urlToImage).into(binding.articleImage)
-        binding.sourceTv.text = article?.source?.name
-        binding.content.text = article?.content
-        binding.sourceBtn.setOnClickListener {
-            startActivity(Intent(Intent(Intent.ACTION_VIEW, Uri.parse("${article?.url}"))))
+        binding.apply {
+            articleTime.text = article?.publishedAt
+            articleTitle.text = article?.description
+            sourceTv.text = article?.source?.name
+            content.text = article?.content
+            sourceBtn.setOnClickListener {
+                startActivity(Intent(Intent(Intent.ACTION_VIEW, Uri.parse("${article?.url}"))))
+            }
         }
+        Glide.with(this).load(article?.urlToImage).into(binding.articleImage)
     }
 
 }
