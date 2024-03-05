@@ -29,7 +29,7 @@ class HomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        loadFragment(categoriesFragment)
+        loadCategoryFragment()
         onNavClicked()
     }
 
@@ -42,7 +42,7 @@ class HomeActivity : AppCompatActivity() {
                 }
 
                 R.id.categories -> {
-                    loadFragment(categoriesFragment)
+                    loadCategoryFragment()
                 }
             }
             binding.root.closeDrawers()
@@ -83,6 +83,13 @@ class HomeActivity : AppCompatActivity() {
     private fun loadFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_container, fragment)
+            .addToBackStack("")
+            .commit()
+    }
+
+    private fun loadCategoryFragment() {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container, categoriesFragment)
             .commit()
     }
 
