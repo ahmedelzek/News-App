@@ -9,10 +9,10 @@ import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.newsapp.Constants
-import com.example.newsapp.adapter.NewsAdapter
 import com.example.newsapp.api.model.Article
 import com.example.newsapp.databinding.FragmentSearchBinding
 import com.example.newsapp.ui.activities.DetailsActivity
+import com.example.newsapp.ui.adapter.NewsAdapter
 
 
 class SearchFragment(private val cancelClick: (fragment: Fragment) -> Unit) : Fragment(),

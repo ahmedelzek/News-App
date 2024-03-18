@@ -6,6 +6,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.example.newsapp.Constants
+import com.example.newsapp.R
 import com.example.newsapp.api.model.Article
 import com.example.newsapp.databinding.ActivityDetailsBinding
 
@@ -29,7 +30,8 @@ class DetailsActivity : AppCompatActivity() {
                 startActivity(Intent(Intent(Intent.ACTION_VIEW, Uri.parse("${article?.url}"))))
             }
         }
-        Glide.with(this).load(article?.urlToImage).into(binding.articleImage)
+        Glide.with(this).load(article?.urlToImage).placeholder(R.drawable.placeholder)
+            .into(binding.articleImage)
     }
 
 }

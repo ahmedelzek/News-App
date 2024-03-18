@@ -1,10 +1,11 @@
-package com.example.newsapp.adapter
+package com.example.newsapp.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.bumptech.glide.Glide
+import com.example.newsapp.R
 import com.example.newsapp.api.model.Article
 import com.example.newsapp.databinding.NewsItemBinding
 
@@ -34,7 +35,8 @@ class NewsAdapter(private var articlesList: List<Article?>) :
                 newAuthorTxt.text = article?.source?.name
                 newTitleTxt.text = article?.title
                 newTimeTxt.text = article?.publishedAt
-                Glide.with(root).load(article?.urlToImage).into(binding.newsImg)
+                Glide.with(root).load(article?.urlToImage).placeholder(R.drawable.placeholder)
+                    .into(binding.newsImg)
 
             }
             onArticleClickListener?.let { onArticleClickListener ->

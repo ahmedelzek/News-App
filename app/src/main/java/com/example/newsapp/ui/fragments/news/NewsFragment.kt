@@ -1,4 +1,4 @@
-package com.example.newsapp.ui.fragments
+package com.example.newsapp.ui.fragments.news
 
 import android.content.Intent
 import android.os.Bundle
@@ -9,22 +9,16 @@ import android.widget.LinearLayout
 import androidx.core.view.forEach
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.example.newsapp.Constants
-import com.example.newsapp.adapter.NewsAdapter
-import com.example.newsapp.api.ApiManger
 import com.example.newsapp.api.model.Article
-import com.example.newsapp.api.model.ArticlesResponse
 import com.example.newsapp.api.model.Source
-import com.example.newsapp.api.model.SourcesResponse
 import com.example.newsapp.databinding.FragmentNewsBinding
 import com.example.newsapp.ui.activities.DetailsActivity
+import com.example.newsapp.ui.adapter.NewsAdapter
 import com.example.newsapp.ui.model.Category
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
-import com.google.gson.Gson
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class NewsFragment(
     private val categoryId: Category,
@@ -33,60 +27,54 @@ class NewsFragment(
     NewsAdapter.OnArticleClickListener {
 
     private lateinit var binding: FragmentNewsBinding
+    private lateinit var viewModel: NewsFragmentViewModel
     private var newsAdapter = NewsAdapter(listOf())
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
+        viewModel = ViewModelProvider(this)[NewsFragmentViewModel::class.java]
         binding = FragmentNewsBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        loadSources()
+        viewModel.loadSources(categoryId.id)
         handleClicks()
         binding.recyclerViewNews.adapter = newsAdapter
+        observeToLiveData()
     }
 
     override fun onResume() {
         super.onResume()
         onResume.invoke()
     }
+
     private fun handleClicks() {
         binding.errorView.retryButton.setOnClickListener {
-            loadSources()
+            viewModel.loadSources(categoryId.id)
         }
         binding.tabLayout.addOnTabSelectedListener(this)
         newsAdapter.setOnArticleClickListener(this)
     }
 
-    private fun loadSources() {
-        showProgressbarVisibility(true)
-        showErrorVisibility(false)
-        ApiManger.getWebServices().getSources(Constants.API_KEY, categoryId.id)
-            .enqueue(object : Callback<SourcesResponse> {
-                override fun onResponse(
-                    call: Call<SourcesResponse>, response: Response<SourcesResponse>
-                ) {
-                    showProgressbarVisibility(false)
-                    if (response.isSuccessful) {
-                        response.body()?.sources.let {
-                            showTaps(it!!)
-                        }
-                    } else {
-                        val responseGson = Gson().fromJson(
-                            response.errorBody()?.string(), SourcesResponse::class.java
-                        )
-                        showErrorVisibility(true, responseGson.message ?: Constants.ERROR_MESSAGE)
-                    }
-
-                }
-
-                override fun onFailure(call: Call<SourcesResponse>, t: Throwable) {
-                    showProgressbarVisibility(false)
-                    t.localizedMessage?.let { showErrorVisibility(true, it) }
-                }
-            })
+    private fun observeToLiveData() {
+        viewModel.sourcesListLiveData.observe(viewLifecycleOwner) {
+            showTaps(it!!)
+        }
+        viewModel.isLoadingLiveData.observe(viewLifecycleOwner) {
+            showProgressbarVisibility(it!!)
+        }
+        viewModel.errorMessageLiveData.observe(viewLifecycleOwner) {
+            if (it.isEmpty()) {
+                showErrorVisibility(false)
+            } else {
+                showErrorVisibility(true, it)
+            }
+        }
+        viewModel.articlesListLiveData.observe(viewLifecycleOwner) {
+            newsAdapter.updateArticles(it!!)
+        }
     }
 
     private fun showTaps(sources: List<Source?>) {
@@ -122,7 +110,7 @@ class NewsFragment(
     override fun onTabSelected(tab: TabLayout.Tab?) {
         val source = tab?.tag as Source?
         source?.id?.let {
-            loadArticles(it)
+            viewModel.loadArticles(it)
         }
     }
 
@@ -131,35 +119,8 @@ class NewsFragment(
     override fun onTabReselected(tab: TabLayout.Tab?) {
         val source = tab?.tag as Source?
         source?.id?.let {
-            loadArticles(it)
+            viewModel.loadArticles(it)
         }
-    }
-
-    private fun loadArticles(sourceId: String) {
-        ApiManger.getWebServices().getArticles(Constants.API_KEY, sourceId)
-            .enqueue(object : Callback<ArticlesResponse> {
-                override fun onResponse(
-                    call: Call<ArticlesResponse>, response: Response<ArticlesResponse>
-                ) {
-                    if (response.isSuccessful) {
-                        response.body()?.articles.let {
-                            newsAdapter.updateArticles(it!!)
-                        }
-                    } else {
-                        val responseGson = Gson().fromJson(
-                            response.errorBody()?.string(), ArticlesResponse::class.java
-                        )
-                        showErrorVisibility(true, responseGson.message ?: Constants.ERROR_MESSAGE)
-                    }
-
-                }
-
-                override fun onFailure(call: Call<ArticlesResponse>, t: Throwable) {
-                    showProgressbarVisibility(false)
-                    t.localizedMessage?.let { showErrorVisibility(true, it) }
-                }
-
-            })
     }
 
     override fun onArticleClick(article: Article?) {

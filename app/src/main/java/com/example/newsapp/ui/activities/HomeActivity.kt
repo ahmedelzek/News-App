@@ -6,10 +6,10 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import com.example.newsapp.R
 import com.example.newsapp.databinding.ActivityHomeBinding
-import com.example.newsapp.ui.fragments.CategoriesFragment
-import com.example.newsapp.ui.fragments.NewsFragment
-import com.example.newsapp.ui.fragments.SettingsFragment
+import com.example.newsapp.ui.fragments.categories.CategoriesFragment
+import com.example.newsapp.ui.fragments.news.NewsFragment
 import com.example.newsapp.ui.fragments.search.SearchFragment
+import com.example.newsapp.ui.fragments.settings.SettingsFragment
 
 class HomeActivity : AppCompatActivity() {
     private lateinit var binding: ActivityHomeBinding
